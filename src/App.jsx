@@ -2,6 +2,12 @@ import { useEffect, useRef, useState } from "react";
 
 export default function WeddingInvitation() {
 
+  const audioRef = useRef(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const [opened, setOpened] = useState(false);
+
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
@@ -9,14 +15,10 @@ export default function WeddingInvitation() {
     seconds: 0,
   });
 
-  const audioRef = useRef(null);
-
-  const [isPlaying, setIsPlaying] = useState(false);
-
   // LIVE COUNTDOWN
   useEffect(() => {
 
-    const timer = setInterval(() => {
+    const interval = setInterval(() => {
 
       const weddingDate = new Date("2026-06-11T00:00:00").getTime();
 
@@ -45,7 +47,7 @@ export default function WeddingInvitation() {
 
     }, 1000);
 
-    return () => clearInterval(timer);
+    return () => clearInterval(interval);
 
   }, []);
 
@@ -71,17 +73,88 @@ export default function WeddingInvitation() {
     }
   };
 
+  // OPEN INVITATION
+  const openInvitation = () => {
+
+    setOpened(true);
+
+    if (audioRef.current) {
+
+      audioRef.current.volume = 1;
+
+      audioRef.current.play();
+
+      setIsPlaying(true);
+
+    }
+
+    setTimeout(() => {
+
+      window.scrollTo({
+        top: window.innerHeight,
+        behavior: "smooth",
+      });
+
+    }, 500);
+  };
+
   return (
 
-    <div className="min-h-screen w-full bg-[#f8f3eb] text-[#5c4b3b] overflow-x-hidden font-serif relative">
+    <div className="bg-[#f8f4ee] text-[#5f4630] overflow-x-hidden font-serif relative">
 
-      {/* MUSIC BUTTON */}
+      {/* BACKGROUND GLOW */}
+      <div className="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+
+        <div className="absolute top-0 left-0 w-[300px] h-[300px] bg-yellow-100/20 rounded-full blur-3xl animate-pulse"></div>
+
+        <div className="absolute bottom-0 right-0 w-[350px] h-[350px] bg-orange-100/20 rounded-full blur-3xl animate-pulse"></div>
+
+      </div>
+
+      {/* ISLAMIC PATTERN */}
+      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
+
+      {/* LIQUID GLASS MUSIC BUTTON */}
       <button
         onClick={toggleMusic}
-        className="fixed top-5 right-5 z-50 w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/30 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-500"
+        className="
+        fixed top-5 right-5 z-50
+        w-14 h-14 md:w-16 md:h-16
+        rounded-full
+        border border-white/30
+        bg-white/10
+        backdrop-blur-2xl
+        shadow-[0_8px_32px_rgba(255,255,255,0.18)]
+        flex items-center justify-center
+        transition-all duration-500
+        hover:scale-110
+        hover:bg-white/20
+        overflow-hidden
+        "
       >
 
-        <span className="text-2xl md:text-3xl">
+        {/* LIQUID LIGHT */}
+        <div className="
+          absolute inset-0
+          rounded-full
+          bg-gradient-to-br
+          from-white/40
+          via-white/10
+          to-transparent
+          opacity-80
+        "></div>
+
+        {/* SHINE */}
+        <div className="
+          absolute top-1 left-1
+          w-[70%] h-[35%]
+          rounded-full
+          bg-white/30
+          blur-md
+        "></div>
+
+        {/* ICON */}
+        <span className="relative z-10 text-xl md:text-2xl text-white drop-shadow-lg">
 
           {isPlaying ? "🔊" : "🔈"}
 
@@ -89,141 +162,151 @@ export default function WeddingInvitation() {
 
       </button>
 
-      {/* PREMIUM GLOW */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      {/* HERO SECTION */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-4">
 
-        <div className="absolute top-0 left-0 w-48 md:w-96 h-48 md:h-96 bg-yellow-100/20 rounded-full blur-3xl animate-pulse"></div>
-
-        <div className="absolute bottom-0 right-0 w-56 md:w-[500px] h-56 md:h-[500px] bg-orange-100/20 rounded-full blur-3xl animate-pulse"></div>
-
-        <div className="absolute top-1/2 left-1/2 w-56 md:w-[400px] h-56 md:h-[400px] bg-white/10 rounded-full blur-3xl animate-pulse"></div>
-
-      </div>
-
-      {/* ISLAMIC PATTERN */}
-      <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
-
-      {/* HERO */}
-      <section className="relative min-h-screen flex items-center justify-center px-4 py-10 overflow-hidden">
-
-        {/* BG IMAGE */}
+        {/* BACKGROUND IMAGE */}
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=1400&auto=format&fit=crop')] bg-cover bg-center opacity-10"></div>
 
-        {/* DARK OVERLAY */}
-        <div className="absolute inset-0 bg-black/[0.03]"></div>
+        {/* OVERLAY */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#fffdf9]/70 to-[#efe3d2]/70"></div>
 
-        {/* MOON */}
-        <div className="absolute top-5 left-5 md:top-10 md:left-10 text-5xl md:text-8xl opacity-20">
-          ☪
-        </div>
-
-        {/* PARTICLES */}
+        {/* FLOATING PARTICLES */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
 
           {[...Array(35)].map((_, i) => (
             <div
               key={i}
-              className="absolute w-1 h-1 md:w-2 md:h-2 bg-yellow-100/40 rounded-full animate-pulse"
+              className="absolute rounded-full bg-yellow-100/40 animate-pulse"
               style={{
+                width: `${2 + Math.random() * 5}px`,
+                height: `${2 + Math.random() * 5}px`,
                 top: `${Math.random() * 100}%`,
                 left: `${Math.random() * 100}%`,
-                animationDuration: `${2 + Math.random() * 5}s`,
+                animationDuration: `${2 + Math.random() * 6}s`,
               }}
             />
           ))}
+
         </div>
 
         {/* MAIN CARD */}
-        <div className="relative z-10 w-full max-w-5xl bg-white/20 backdrop-blur-xl rounded-[30px] md:rounded-[60px] border border-white/20 shadow-[0_10px_50px_rgba(0,0,0,0.12)] p-5 sm:p-7 md:p-14 text-center">
+        <div className={`
+          relative z-10
+          w-full max-w-5xl
+          bg-white/15
+          backdrop-blur-2xl
+          border border-white/20
+          rounded-[35px] md:rounded-[60px]
+          shadow-[0_10px_60px_rgba(0,0,0,0.15)]
+          px-5 py-10 sm:px-8 md:px-16 md:py-16
+          text-center
+          transition-all duration-1000
+          ${opened ? "scale-100 opacity-100" : "scale-95 opacity-95"}
+        `}>
+
+          {/* MOON */}
+          <div className="absolute top-5 left-5 md:top-8 md:left-8 text-5xl md:text-7xl opacity-10">
+            ☪
+          </div>
 
           {/* BISMILLAH */}
-          <p className="text-lg md:text-3xl text-[#9c7b46] mb-5 md:mb-8 tracking-widest">
+          <p className="text-[#b08d57] text-xl md:text-4xl mb-6 tracking-widest">
             ﷽
           </p>
 
           {/* TOP TEXT */}
-          <p className="uppercase tracking-[3px] md:tracking-[8px] text-[10px] sm:text-xs md:text-sm leading-6 md:leading-8 opacity-80 mb-6 md:mb-10">
-            WE ARE HONORED TO INVITE YOU TO
+          <p className="uppercase tracking-[3px] md:tracking-[8px] text-[10px] sm:text-xs md:text-sm opacity-70 leading-6 md:leading-8">
+
+            WE REQUEST THE HONOUR OF YOUR PRESENCE
+
             <br />
-            THE WEDDING CEREMONY OF
+
+            AT THE WEDDING CEREMONY OF
+
           </p>
 
           {/* ISLAMIC ARCH */}
-          <div className="mx-auto mb-6 md:mb-10 w-[140px] sm:w-[180px] md:w-[300px] h-[90px] sm:h-[110px] md:h-[170px] border-[4px] md:border-[6px] border-[#c8a96b] rounded-t-full rounded-b-[25px] md:rounded-b-[40px] opacity-40 relative">
+          <div className="mx-auto mt-8 mb-8 md:mt-12 md:mb-12 w-[150px] md:w-[320px] h-[90px] md:h-[180px] border-[5px] border-[#c8a96b] rounded-t-full rounded-b-[30px] opacity-40 relative">
 
-            <div className="absolute inset-2 md:inset-4 border border-[#c8a96b] rounded-t-full rounded-b-[20px] md:rounded-b-[30px]"></div>
+            <div className="absolute inset-3 border border-[#c8a96b] rounded-t-full rounded-b-[25px]"></div>
 
           </div>
 
           {/* GROOM */}
-          <h1 className="text-3xl sm:text-4xl md:text-8xl font-bold leading-tight bg-gradient-to-r from-[#8a6a3d] via-[#d4af37] to-[#8a6a3d] bg-clip-text text-transparent px-2">
+          <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold leading-tight bg-gradient-to-r from-[#8a6a3d] via-[#e4c46a] to-[#8a6a3d] bg-clip-text text-transparent">
+
             Abrarul Haq
+
           </h1>
 
           {/* & */}
-          <div className="text-xl sm:text-2xl md:text-5xl my-3 md:my-5 text-[#8a6a3d]">
+          <div className="text-2xl md:text-5xl my-3 md:my-5 text-[#8a6a3d]">
             &
           </div>
 
           {/* BRIDE */}
-          <h1 className="text-3xl sm:text-4xl md:text-8xl font-bold leading-tight bg-gradient-to-r from-[#8a6a3d] via-[#d4af37] to-[#8a6a3d] bg-clip-text text-transparent px-2">
+          <h1 className="text-4xl sm:text-5xl md:text-8xl font-bold leading-tight bg-gradient-to-r from-[#8a6a3d] via-[#e4c46a] to-[#8a6a3d] bg-clip-text text-transparent">
+
             Hafsa Jabeen
+
           </h1>
 
           {/* DATE */}
-          <p className="mt-6 md:mt-10 text-xs sm:text-sm md:text-2xl uppercase tracking-[2px] md:tracking-[5px]">
-            On 11 June 2026
+          <p className="mt-8 md:mt-10 uppercase tracking-[3px] md:tracking-[5px] text-xs md:text-xl opacity-80">
+
+            Thursday • 11 June 2026
+
           </p>
 
-          {/* TEXT */}
-          <p className="max-w-2xl mx-auto opacity-80 text-xs sm:text-sm md:text-lg leading-7 md:leading-9 mt-5 md:mt-8 px-2">
-            Request the honour of your gracious presence and blessings as we begin a beautiful journey of love, faith and togetherness.
+          {/* SUBTEXT */}
+          <p className="mt-6 max-w-2xl mx-auto text-xs sm:text-sm md:text-lg leading-7 md:leading-9 opacity-80">
+
+            With the blessings of Allah سبحانه وتعالى and our beloved families,
+            we invite you to celebrate the sacred union of our hearts,
+            and to share in the joy of our Nikah ceremony.
+
           </p>
 
-          {/* OPEN BUTTON */}
-          <div className="flex justify-center mt-8 md:mt-12">
+          {/* BUTTON */}
+          <div className="mt-10 md:mt-14">
 
             <button
-              onClick={() => {
-
-                if (audioRef.current) {
-
-                  audioRef.current.volume = 1;
-
-                  audioRef.current.play();
-
-                  setIsPlaying(true);
-
-                }
-
-                window.scrollTo({
-                  top: window.innerHeight,
-                  behavior: "smooth",
-                });
-
-              }}
-              className="px-5 sm:px-6 md:px-10 py-2 md:py-4 rounded-full border border-[#8a6a3d] bg-[#8a6a3d]/10 hover:bg-[#8a6a3d] hover:text-white transition-all duration-500 text-xs sm:text-sm md:text-base tracking-[2px]"
+              onClick={openInvitation}
+              className="
+              px-7 py-3 md:px-12 md:py-5
+              rounded-full
+              bg-gradient-to-r from-[#8a6a3d] to-[#c8a96b]
+              text-white
+              tracking-[3px]
+              text-xs md:text-sm
+              shadow-2xl
+              hover:scale-105
+              transition-all duration-500
+              "
             >
               OPEN INVITATION
             </button>
 
           </div>
+
         </div>
+
       </section>
 
       {/* DIVIDER */}
-      <div className="flex justify-center py-6 md:py-10">
-        <div className="w-24 md:w-40 h-[2px] bg-gradient-to-r from-transparent via-[#b08d57] to-transparent"></div>
+      <div className="flex justify-center py-8 md:py-12">
+        <div className="w-28 md:w-52 h-[2px] bg-gradient-to-r from-transparent via-[#b08d57] to-transparent"></div>
       </div>
 
       {/* COUNTDOWN */}
-      <section className="py-10 md:py-24 px-4 md:px-6 text-center relative">
+      <section className="py-10 md:py-24 px-4 text-center relative z-10">
 
-        <h2 className="text-2xl md:text-6xl mb-8 md:mb-14 text-[#7a5c3c]">
+        <h2 className="text-3xl md:text-6xl mb-10 md:mb-16 text-[#7a5c3c]">
           Save The Date
         </h2>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-8 max-w-6xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-6xl mx-auto">
 
           {[
             ["Days", timeLeft.days],
@@ -234,49 +317,66 @@ export default function WeddingInvitation() {
 
             <div
               key={label}
-              className="bg-white/60 backdrop-blur-lg rounded-[20px] md:rounded-[35px] p-4 md:p-10 shadow-xl border border-white/30"
+              className="
+              bg-white/50
+              backdrop-blur-xl
+              border border-white/20
+              rounded-[25px]
+              md:rounded-[40px]
+              p-5 md:p-10
+              shadow-xl
+              "
             >
 
-              <div className="text-2xl sm:text-3xl md:text-7xl font-bold text-[#8a6a3d] mb-2 md:mb-3">
+              <div className="text-3xl md:text-7xl font-bold text-[#8a6a3d]">
+
                 {value}
+
               </div>
 
-              <div className="uppercase tracking-[2px] md:tracking-[4px] text-[10px] md:text-sm opacity-70">
+              <div className="mt-2 uppercase tracking-[3px] text-[10px] md:text-sm opacity-70">
+
                 {label}
+
               </div>
 
             </div>
 
           ))}
+
         </div>
+
       </section>
 
-      {/* DIVIDER */}
-      <div className="flex justify-center py-6 md:py-10">
-        <div className="w-24 md:w-40 h-[2px] bg-gradient-to-r from-transparent via-[#b08d57] to-transparent"></div>
-      </div>
-
       {/* DETAILS */}
-      <section className="py-10 md:py-24 px-4 md:px-6 text-center">
+      <section className="py-10 md:py-24 px-4 text-center relative z-10">
 
-        <h2 className="text-2xl md:text-6xl mb-6 md:mb-10 text-[#7a5c3c]">
+        <h2 className="text-3xl md:text-6xl mb-10 md:mb-16 text-[#7a5c3c]">
           Wedding Details
         </h2>
 
         <div className="grid md:grid-cols-2 gap-5 md:gap-10 max-w-6xl mx-auto">
 
           {/* NIKAH */}
-          <div className="bg-white/50 backdrop-blur-lg rounded-[25px] md:rounded-[45px] p-5 sm:p-6 md:p-12 shadow-2xl border border-white/30">
+          <div className="
+            bg-white/50
+            backdrop-blur-xl
+            rounded-[30px]
+            md:rounded-[50px]
+            p-6 md:p-12
+            border border-white/20
+            shadow-2xl
+          ">
 
-            <div className="text-4xl md:text-6xl mb-4 md:mb-6 text-[#b08d57]">
+            <div className="text-5xl md:text-7xl mb-6 text-[#b08d57]">
               ☪
             </div>
 
-            <h3 className="text-xl md:text-4xl mb-4 md:mb-6">
+            <h3 className="text-2xl md:text-4xl mb-6">
               Nikah Ceremony
             </h3>
 
-            <p className="leading-7 md:leading-10 text-sm md:text-lg opacity-80">
+            <p className="leading-8 md:leading-10 text-sm md:text-lg opacity-80">
 
               Thursday, 11 June 2026
 
@@ -301,17 +401,25 @@ export default function WeddingInvitation() {
           </div>
 
           {/* RECEPTION */}
-          <div className="bg-white/50 backdrop-blur-lg rounded-[25px] md:rounded-[45px] p-5 sm:p-6 md:p-12 shadow-2xl border border-white/30">
+          <div className="
+            bg-white/50
+            backdrop-blur-xl
+            rounded-[30px]
+            md:rounded-[50px]
+            p-6 md:p-12
+            border border-white/20
+            shadow-2xl
+          ">
 
-            <div className="text-4xl md:text-6xl mb-4 md:mb-6 text-[#b08d57]">
+            <div className="text-5xl md:text-7xl mb-6 text-[#b08d57]">
               ✨
             </div>
 
-            <h3 className="text-xl md:text-4xl mb-4 md:mb-6">
+            <h3 className="text-2xl md:text-4xl mb-6">
               Reception
             </h3>
 
-            <p className="leading-7 md:leading-10 text-sm md:text-lg opacity-80">
+            <p className="leading-8 md:leading-10 text-sm md:text-lg opacity-80">
 
               Wedding Celebration
 
@@ -328,23 +436,28 @@ export default function WeddingInvitation() {
           </div>
 
         </div>
+
       </section>
 
-      {/* DIVIDER */}
-      <div className="flex justify-center py-6 md:py-10">
-        <div className="w-24 md:w-40 h-[2px] bg-gradient-to-r from-transparent via-[#b08d57] to-transparent"></div>
-      </div>
-
       {/* VENUE */}
-      <section className="py-10 md:py-24 px-4 md:px-6 text-center">
+      <section className="py-10 md:py-24 px-4 text-center relative z-10">
 
-        <h2 className="text-2xl md:text-6xl mb-6 md:mb-10 text-[#7a5c3c]">
+        <h2 className="text-3xl md:text-6xl mb-10 text-[#7a5c3c]">
           Venue
         </h2>
 
-        <div className="max-w-3xl mx-auto bg-white/60 backdrop-blur-lg rounded-[25px] md:rounded-[45px] p-5 sm:p-7 md:p-12 shadow-2xl border border-white/30">
+        <div className="
+          max-w-3xl mx-auto
+          bg-white/50
+          backdrop-blur-xl
+          border border-white/20
+          rounded-[35px]
+          md:rounded-[50px]
+          p-6 md:p-14
+          shadow-2xl
+        ">
 
-          <p className="text-sm md:text-xl opacity-80 leading-7 md:leading-10">
+          <p className="text-sm md:text-xl leading-8 md:leading-10 opacity-80">
 
             YOUSUFIYA SHADI MAHAL
 
@@ -366,61 +479,76 @@ export default function WeddingInvitation() {
             href="https://maps.app.goo.gl/B44fUr99VvnXmyqk7"
             target="_blank"
             rel="noreferrer"
-            className="inline-block mt-6 md:mt-10 px-5 sm:px-6 md:px-10 py-2 md:py-4 rounded-full bg-[#8a6a3d] text-white hover:scale-105 transition-all duration-500 tracking-[2px] text-xs sm:text-sm md:text-base"
+            className="
+            inline-block
+            mt-8
+            px-8 py-3 md:px-12 md:py-5
+            rounded-full
+            bg-gradient-to-r from-[#8a6a3d] to-[#c8a96b]
+            text-white
+            tracking-[3px]
+            text-xs md:text-sm
+            hover:scale-105
+            transition-all duration-500
+            shadow-xl
+            "
           >
             OPEN GOOGLE MAPS
           </a>
 
         </div>
+
       </section>
 
       {/* QUOTE */}
-      <section className="py-10 md:py-20 text-center px-4 md:px-6 bg-[#f3e7d3]">
+      <section className="py-12 md:py-24 px-4 bg-[#efe2cf] text-center relative z-10">
 
-        <p className="text-lg md:text-4xl italic leading-loose max-w-4xl mx-auto opacity-80">
+        <p className="text-xl md:text-5xl italic leading-loose max-w-4xl mx-auto opacity-80">
           “And We created you in pairs.”
         </p>
 
-        <p className="mt-4 tracking-[4px] md:tracking-[6px] uppercase text-[10px] md:text-sm opacity-60">
+        <p className="mt-5 tracking-[5px] uppercase text-[10px] md:text-sm opacity-60">
           — Quran 78:8
         </p>
 
       </section>
 
       {/* FOOTER */}
-      <footer className="py-10 md:py-24 px-4 md:px-6 text-center bg-[#e7d7c3] relative overflow-hidden">
+      <footer className="py-14 md:py-28 px-4 text-center bg-[#e5d4bf] relative overflow-hidden">
 
         <div className="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=1200&auto=format&fit=crop')] bg-cover bg-center"></div>
 
         <div className="relative z-10">
 
-          <h2 className="text-2xl md:text-6xl mb-3 md:mb-4 bg-gradient-to-r from-[#8a6a3d] via-[#d4af37] to-[#8a6a3d] bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-6xl bg-gradient-to-r from-[#8a6a3d] via-[#e4c46a] to-[#8a6a3d] bg-clip-text text-transparent">
             Abrarul Haq
           </h2>
 
-          <div className="text-lg md:text-3xl mb-3 md:mb-4 text-[#8a6a3d]">
+          <div className="text-2xl md:text-4xl my-3 text-[#8a6a3d]">
             &
           </div>
 
-          <h2 className="text-2xl md:text-6xl mb-4 md:mb-6 bg-gradient-to-r from-[#8a6a3d] via-[#d4af37] to-[#8a6a3d] bg-clip-text text-transparent">
+          <h2 className="text-3xl md:text-6xl bg-gradient-to-r from-[#8a6a3d] via-[#e4c46a] to-[#8a6a3d] bg-clip-text text-transparent">
             Hafsa Jabeen
           </h2>
 
-          <p className="text-xs md:text-lg opacity-70 mb-6 md:mb-8">
+          <p className="mt-6 text-xs md:text-lg opacity-70">
             Thank you for being part of our special day
           </p>
 
-          <div className="inline-block border border-[#8a6a3d] rounded-full px-4 md:px-10 py-2 md:py-3 uppercase tracking-[2px] md:tracking-[4px] text-[10px] md:text-sm">
+          <div className="inline-block mt-8 border border-[#8a6a3d] rounded-full px-5 py-2 md:px-10 md:py-4 uppercase tracking-[3px] text-[10px] md:text-sm">
+
             June 11 • 2026 • Wedding Celebration
+
           </div>
 
         </div>
+
       </footer>
 
-      {/* MUSIC */}
+      {/* AUDIO */}
       <audio
         ref={audioRef}
-        id="bgmusic"
         loop
         preload="auto"
       >
