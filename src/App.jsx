@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function WeddingInvitation() {
 
@@ -8,6 +8,10 @@ export default function WeddingInvitation() {
     minutes: 0,
     seconds: 0,
   });
+
+  const audioRef = useRef(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
 
   // LIVE COUNTDOWN
   useEffect(() => {
@@ -45,9 +49,45 @@ export default function WeddingInvitation() {
 
   }, []);
 
+  // MUSIC CONTROL
+  const toggleMusic = () => {
+
+    if (!audioRef.current) return;
+
+    if (isPlaying) {
+
+      audioRef.current.pause();
+
+      setIsPlaying(false);
+
+    } else {
+
+      audioRef.current.volume = 1;
+
+      audioRef.current.play();
+
+      setIsPlaying(true);
+
+    }
+  };
+
   return (
 
     <div className="min-h-screen w-full bg-[#f8f3eb] text-[#5c4b3b] overflow-x-hidden font-serif relative">
+
+      {/* MUSIC BUTTON */}
+      <button
+        onClick={toggleMusic}
+        className="fixed top-5 right-5 z-50 w-14 h-14 md:w-16 md:h-16 rounded-full bg-white/30 backdrop-blur-xl border border-white/20 shadow-2xl flex items-center justify-center hover:scale-110 transition-all duration-500"
+      >
+
+        <span className="text-2xl md:text-3xl">
+
+          {isPlaying ? "🔊" : "🔈"}
+
+        </span>
+
+      </button>
 
       {/* PREMIUM GLOW */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
@@ -73,7 +113,7 @@ export default function WeddingInvitation() {
         <div className="absolute inset-0 bg-black/[0.03]"></div>
 
         {/* MOON */}
-        <div className="absolute top-5 right-5 md:top-10 md:right-10 text-5xl md:text-8xl opacity-20">
+        <div className="absolute top-5 left-5 md:top-10 md:left-10 text-5xl md:text-8xl opacity-20">
           ☪
         </div>
 
@@ -140,17 +180,20 @@ export default function WeddingInvitation() {
             Request the honour of your gracious presence and blessings as we begin a beautiful journey of love, faith and togetherness.
           </p>
 
-          {/* BUTTON */}
+          {/* OPEN BUTTON */}
           <div className="flex justify-center mt-8 md:mt-12">
 
             <button
               onClick={() => {
 
-                const audio = document.getElementById("bgmusic");
+                if (audioRef.current) {
 
-                if (audio) {
-                  audio.volume = 1;
-                  audio.play();
+                  audioRef.current.volume = 1;
+
+                  audioRef.current.play();
+
+                  setIsPlaying(true);
+
                 }
 
                 window.scrollTo({
@@ -375,7 +418,12 @@ export default function WeddingInvitation() {
       </footer>
 
       {/* MUSIC */}
-      <audio id="bgmusic" loop preload="auto">
+      <audio
+        ref={audioRef}
+        id="bgmusic"
+        loop
+        preload="auto"
+      >
         <source src="/music.mp3" type="audio/mpeg" />
       </audio>
 
