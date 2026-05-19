@@ -49,7 +49,7 @@ export default function WeddingInvitation() {
 
     <div className="min-h-screen w-full bg-[#f8f3eb] text-[#5c4b3b] overflow-x-hidden font-serif relative">
 
-      {/* PREMIUM GLOW BACKGROUND */}
+      {/* PREMIUM GLOW */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
 
         <div className="absolute top-0 left-0 w-48 md:w-96 h-48 md:h-96 bg-yellow-100/20 rounded-full blur-3xl animate-pulse"></div>
@@ -63,7 +63,7 @@ export default function WeddingInvitation() {
       {/* ISLAMIC PATTERN */}
       <div className="absolute inset-0 opacity-[0.03] bg-[url('https://www.transparenttextures.com/patterns/arabesque.png')]"></div>
 
-      {/* HERO SECTION */}
+      {/* HERO */}
       <section className="relative min-h-screen flex items-center justify-center px-4 py-10 overflow-hidden">
 
         {/* BG IMAGE */}
@@ -117,9 +117,7 @@ export default function WeddingInvitation() {
 
           {/* GROOM */}
           <h1 className="text-3xl sm:text-4xl md:text-8xl font-bold leading-tight bg-gradient-to-r from-[#8a6a3d] via-[#d4af37] to-[#8a6a3d] bg-clip-text text-transparent px-2">
-
             Abrarul Haq
-
           </h1>
 
           {/* & */}
@@ -129,23 +127,17 @@ export default function WeddingInvitation() {
 
           {/* BRIDE */}
           <h1 className="text-3xl sm:text-4xl md:text-8xl font-bold leading-tight bg-gradient-to-r from-[#8a6a3d] via-[#d4af37] to-[#8a6a3d] bg-clip-text text-transparent px-2">
-
             Hafsa Jabeen
-
           </h1>
 
           {/* DATE */}
           <p className="mt-6 md:mt-10 text-xs sm:text-sm md:text-2xl uppercase tracking-[2px] md:tracking-[5px]">
-
             On 11 June 2026
-
           </p>
 
-          {/* INVITE TEXT */}
+          {/* TEXT */}
           <p className="max-w-2xl mx-auto opacity-80 text-xs sm:text-sm md:text-lg leading-7 md:leading-9 mt-5 md:mt-8 px-2">
-
             Request the honour of your gracious presence and blessings as we begin a beautiful journey of love, faith and togetherness.
-
           </p>
 
           {/* BUTTON */}
@@ -339,7 +331,7 @@ export default function WeddingInvitation() {
         </div>
       </section>
 
-      {/* QURAN QUOTE */}
+      {/* QUOTE */}
       <section className="py-10 md:py-20 text-center px-4 md:px-6 bg-[#f3e7d3]">
 
         <p className="text-lg md:text-4xl italic leading-loose max-w-4xl mx-auto opacity-80">
