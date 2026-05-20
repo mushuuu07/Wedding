@@ -373,7 +373,7 @@ export default function WeddingInvitation() {
             </div>
 
             <h3 className="text-2xl md:text-4xl mb-6">
-              Nikah Ceremony
+              Valima Ceremony
             </h3>
 
             <p className="leading-8 md:leading-10 text-sm md:text-lg opacity-80">
